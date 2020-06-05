@@ -2,7 +2,7 @@
  * Imports de pacotes necessários.
  */
 import React, { useState, useEffect } from 'react';
-import { View, ImageBackground, Text, Image, KeyboardAvoidingView, Platform, StyleSheet } from 'react-native';
+import { View, ImageBackground, Text, Image, KeyboardAvoidingView, Platform, Alert, StyleSheet } from 'react-native';
 import { Feather as Icon } from '@expo/vector-icons';
 import { RectButton } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
@@ -80,7 +80,10 @@ const Home = () => {
    * Navega para a tela Points.
    */
   function handleNavigationToPoints() {
-    navigation.navigate('Points', { uf: selectedUf, city: selectedCity });
+    if (selectedUf !== '0' && selectedCity !== '0') 
+      navigation.navigate('Points', { uf: selectedUf, city: selectedCity });
+    else
+      Alert.alert('Oooops!', 'Você precisa selecionar um UF e uma cidade.');
   }
 
   /**
@@ -102,7 +105,7 @@ const Home = () => {
             style={pickerSelectStyles}
             onValueChange={handleSelectUf}
             useNativeAndroidPickerStyle={false}
-            placeholder={{ label: 'Selecione a UF' }}
+            placeholder={{ label: 'Selecione a UF', value: '0' }}
             items={ufs.map(uf => {
               return { label: uf, value: uf }
             })}
@@ -112,7 +115,7 @@ const Home = () => {
             style={pickerSelectStyles}
             onValueChange={handleSelectCity}
             useNativeAndroidPickerStyle={false}
-            placeholder={{ label: 'Selecione a cidade' }}
+            placeholder={{ label: 'Selecione a cidade', value: '0' }}
             items={cities.map(city => {
               return { label: city, value: city }
             })}
